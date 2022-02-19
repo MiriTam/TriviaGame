@@ -1,5 +1,9 @@
 import { BASE_URL, API_KEY } from "."
 
+/**
+ * Method sends a request to the server to create a new user.
+ * @param {string} username 
+ */
 export async function apiRegisterUser(username) {
  fetch(`${BASE_URL}/trivia`, {
         method: 'POST',
@@ -25,6 +29,12 @@ export async function apiRegisterUser(username) {
     })
 }
 
+/**
+ * Method sends a request to the server to fetch the user
+ * with the given username.
+ * @param {string} username 
+ * @returns 
+ */
 export async function apiGetUser(username) {
     try {
         const response = await fetch(`${BASE_URL}/trivia?username=${username}`)
