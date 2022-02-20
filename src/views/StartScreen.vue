@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { apiRegisterUser, apiGetUser } from "../api/users";
 
 const store = useStore()
 const username = ref("")
@@ -9,29 +8,19 @@ const emit = defineEmits(["onAuthSuccess"])
 
 /**
  * Method used to get a user from the server when 
- * the user input their username.
+ * the user inputs their username.
  */
 const onSubmit = async () => {
-    // Get user from server
-    let user = await apiGetUser(username.value)
-
-    // If user does not exist, create it then 
-    // get it from the server.
-    if (user.length == 0) {
-        await apiRegisterUser(username.value)
-        user = await apiGetUser(username.value)
+    const error = await store.dispatch("loginUser", {
+        action: "login",
+        username
+    })
+    if (error !== null) {
+        console.log(error)
+    } else {
+        emit("onAuthSuccess")
     }
-    successfullyFetchedUser(user)
 }
-
-/**
- * Method handles adding the user to the global state.
- */
-const successfullyFetchedUser = (user) => {
-    store.commit("setUser", user)
-    emit("onAuthSuccess")
-}
-
 </script>
 
 <template>
