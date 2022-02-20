@@ -1,11 +1,11 @@
-import { BASE_URL, API_KEY } from "."
+import { USER_BASE_URL, API_KEY } from "."
 
 /**
  * Method sends a request to the server to create a new user.
  * @param {string} username 
  */
 export async function apiRegisterUser(username) {
- fetch(`${BASE_URL}/trivia`, {
+ fetch(`${USER_BASE_URL}/trivia`, {
         method: 'POST',
         headers: {
             'X-API-Key': API_KEY,
@@ -37,7 +37,7 @@ export async function apiRegisterUser(username) {
  */
 export async function apiGetUser(username) {
     try {
-        const response = await fetch(`${BASE_URL}/trivia?username=${username}`)
+        const response = await fetch(`${USER_BASE_URL}/trivia?username=${username}`)
         return await response.json()
     } catch (error) {
         return error
