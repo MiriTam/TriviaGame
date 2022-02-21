@@ -1,22 +1,11 @@
 <script setup>
 import { computed } from "vue"
 import { useStore } from "vuex"
-import { getQuestions } from "../api/questions"
 
-let questions = []
 const store = useStore()
 const user = computed(() => store.state.user)
+const questions = computed(() => store.state.questions)
 
-const getTriviaQuestions = async () => {
-    const response = await getQuestions()
-    if (response.length == 10) {
-        questions = response
-    } else {
-        console.log("Did not fetch trivia questions.")
-    }
-}
-
-getTriviaQuestions()
 </script>
 
 <template>
@@ -26,4 +15,5 @@ getTriviaQuestions()
  <h2>
      {{user}}
  </h2>
+ <p>{{questions}}</p>
 </template>

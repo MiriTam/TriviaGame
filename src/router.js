@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router"
 import store from "./store"
 import QuestionScreen from "./views/QuestionScreen.vue"
+import TriviaSelector from "./views/TriviaSelector.vue"
 import TriviaGame from "./views/TriviaGame.vue"
-
 
 /**
  * Method used to redirect the user to the start screen
  * if they are not logged in.
  */
-const authGuard = (_to, _from, next) => {
+const triviaGuard = (_to, _from, next) => {
     if (!store.state.user) {
         next("/")
     } else {
@@ -22,7 +22,11 @@ const authGuard = (_to, _from, next) => {
  */
 const loginGuard = (_to, _from, next) => {
     if (store.state.user) {
-        next("/trivia")
+        if (store.state.questions) {
+            next("/trivia")
+        } else {
+            next("/selection")
+        }
     } else {
         next()
     }
@@ -37,7 +41,12 @@ const routes = [
     {
         path: "/trivia",
         component: QuestionScreen,
-        beforeEnter: authGuard
+        beforeEnter: triviaGuard
+    },
+    {
+        path: "/selection",
+        component: TriviaSelector,
+        beforeEnter: triviaGuard
     }
 ]
 

@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import { apiGetQuestions } from "./api/questions";
 import { apiGetUser, apiRegisterUser } from "./api/users"
 
 /**
@@ -14,13 +15,26 @@ const initUser = () => {
     }
 }
 
+const initQuestions = () => {
+    const storedQuestions = localStorage.getItem("trivia-questions")
+    if (!storedQuestions) {
+        return null
+    } else {
+        return JSON.parse(storedQuestions)
+    }
+}
+
 export default createStore({
     state: {
-        user: initUser()
+        user: initUser(),
+        questions: initQuestions()
     },
     mutations: {
         setUser: (state, user) => {
             state.user = user
+        },
+        setQuestions: (state, questions) => {
+            state.questions = questions
         }
     },
     actions: {
@@ -50,7 +64,26 @@ export default createStore({
                     return null
 
                 } else {
-                    throw new Error("registerUser: Wrong action provided. Action: " + action)
+                    throw new Error("loginUser: Wrong action provided. Action: " + action)
+                }
+            } catch (error) {
+                return error.message
+            }
+        },
+
+        /**
+         * Method used to get trivia questions and add them to the store.
+         * @returns 
+         */
+        async getTriviaQuestions({commit}, {category, difficulty, questionType}) {
+            try {
+                const results = await apiGetQuestions(category, difficulty, questionType)
+                if (results.length != 10) {
+                    throw new Error("getTriviaQuestions: Could not fetch trivia questions.")
+                } else {
+                    commit("setQuestions", results)
+                    localStorage.setItem("trivia-questions", JSON.stringify(results))
+                    return null
                 }
             } catch (error) {
                 return error.message

@@ -6,7 +6,7 @@ const router = useRouter()
 
 const handleLogin = () => {
     console.log("user logged in")
-    router.push("/trivia")
+    router.push("/selection")
 }
 </script>
 
