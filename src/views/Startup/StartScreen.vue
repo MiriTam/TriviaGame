@@ -23,12 +23,17 @@ const onSubmit = async () => {
 </script>
 
 <template>
- <main class="container mx-auto px-4">
-  <h1 class="mb-3 text-2xl">Start screen</h1>
+ <main class="container">
+  <h1 class="title">
+      Welcome Honoured Quizhead!
+  </h1>
+  <h2 class="sub-title">
+      Pray, what is thine name?
+  </h2>
   <form @submit.prevent="onSubmit">
-       <fieldset class="mb-3 mt-3">
+       <fieldset class="username-input">
          <label for="username" aria-label="Username" class="block">
-             Username
+             Thou may call me
          </label>
          <input 
           type="text" 
@@ -37,8 +42,9 @@ const onSubmit = async () => {
           class="border border-slate-300"
           v-model="username"
          >
+         <label>, the quiztastic</label>
       </fieldset>
-      <button type="submit" class="bg-indigo-500 text-white p-3 rounded">Play now</button>
+      <button type="submit" class="play-button">Playeth now</button>
   </form>
  </main>
 </template>

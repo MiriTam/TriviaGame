@@ -154,7 +154,7 @@ export default createStore({
             // Calculate score
             let score = 0
             answers.forEach(answer => {
-                if (answer === true) {
+                if (answer.correct_answer === answer.given_answer) {
                     score += 10
                 }
             });
@@ -183,8 +183,8 @@ export default createStore({
         resetAnswers({commit}) {
             commit("setAnswers", null)
             commit("setScore", null)
-            localStorage.setItem("trivia-answers", null)
-            localStorage.setItem("trivia-score", null)
+            localStorage.removeItem("trivia-answers")
+            localStorage.removeItem("trivia-score")
         },
 
         /**
@@ -195,10 +195,10 @@ export default createStore({
             commit("setScore", null)
             commit("setQuestions", null)
             commit("setSelection", null)
-            localStorage.setItem("trivia-answers", null)
-            localStorage.setItem("trivia-score", null)
-            localStorage.setItem("trivia-questions", null)
-            localStorage.setItem("trivia-selection", null)
+            localStorage.removeItem("trivia-answers")
+            localStorage.removeItem("trivia-score")
+            localStorage.removeItem("trivia-questions")
+            localStorage.removeItem("trivia-selection")
         },
 
         /**
@@ -210,11 +210,7 @@ export default createStore({
             commit("setScore", null)
             commit("setQuestions", null)
             commit("setSelection", null)
-            localStorage.setItem("trivia-user", null)
-            localStorage.setItem("trivia-answers", null)
-            localStorage.setItem("trivia-score", null)
-            localStorage.setItem("trivia-questions", null)
-            localStorage.setItem("trivia-selection", null)
+            localStorage.clear()
         }
     }
 })

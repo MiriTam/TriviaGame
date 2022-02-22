@@ -1,3 +1,126 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
+    background-color: blanchedalmond;
+}
+
+.container {
+    background-color: blue;
+    width: 50%;
+    margin: auto;
+    padding: 40px;
+    border-radius: 10px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.title {
+    font-size: xx-large;
+}
+
+.sub-title {
+    font-size: x-large;
+}
+
+.username-input {
+    border: none;
+    font-size: large;
+    font-weight: bold;
+}
+
+.play-button {
+    background-color: blueviolet;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    color: white;
+    font-size: larger;
+}
+
+.hidden {
+    display: none;
+}
+
+.trivia-selection-field {
+    font-size: medium;
+    border: none;
+}
+
+.dropdown-label {
+    float: left;
+}
+
+.dropdown {
+    float: right;
+    width: 50%;
+}
+
+.question-list {
+    list-style-type: none;
+}
+
+.display {
+    background-color: beige;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.question {
+    font-size: large;
+}
+
+.option-button {
+    padding: 10px;
+    margin: 5px;
+    background-color: green;
+    border-radius: 10px;
+    color: white;
+    font-size: medium;
+}
+
+.answer {
+    font-size: large;
+}
+
+.correct {
+    color: white;
+    font-size: large;
+    background-color: green;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px;
+}
+
+.wrong {
+    color: white;
+    font-size: large;
+    background-color: red;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px;
+}
+
+.retry-button {
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: green;
+}
+
+.change-button {
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: orange;
+}
+
+.logout-button {
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: red;
+}
+

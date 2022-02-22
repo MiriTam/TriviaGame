@@ -1,5 +1,4 @@
 <script setup>
-
 defineProps({
     question: {
         type: Object,
@@ -44,22 +43,18 @@ const shuffle = (array) => {
  * @param {number} index 
  */
 const answerGiven = (answer, correct_answer, index) => {
-    if (answer === correct_answer) {
-        emit("answerGiven", true, index)
-    } else {
-        emit("answerGiven", false, index)
-    }
+    emit("answerGiven", correct_answer, answer, index)
 }
 
 </script>
 
 <template>
  <li>
-    <p>
+    <p class="question">
         {{question.question}} 
     </p>
     <button 
-        class="bg-indigo-500 text-white p-3 rounded"  
+        class="option-button"  
         v-for="alternative in getAlternatives(question.incorrect_answers, question.correct_answer)" 
         v-on:click="answerGiven(alternative, question.correct_answer, index)"
     >

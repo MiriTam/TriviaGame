@@ -68,28 +68,45 @@ const onSubmit = async () => {
 </script>
 
 <template>
-<h1>Welcome {{user[0].username}}!</h1>
-<p>Please select your trivia.</p>
-<form @submit.prevent="onSubmit">
-  <select @change="setCategory">
-      <option value="any">Surprise Me</option>
-      <option value="9">General Knowledge</option>
-      <option value="10">Entertainment: Books</option>
-      <option value="11">Entertainment: Film</option>
-      <option value="12">Entertainment: Music</option>
-      <option value="13">Entertainment: Musicals and Theatres</option>
-  </select>
-  <select @change="setDifficulty">
-      <option value="any">Any difficulty</option>
-      <option value="easy">Easy</option>
-      <option value="medium">Medium</option>
-      <option value="hard">Hard</option>
-  </select>
-  <select @change="setQuestionType">
-      <option value="any">Any</option>
-      <option value="multiple">Multiple Choice</option>
-      <option value="boolean">True or False</option>
-  </select>
-  <button type="submit" class="bg-indigo-500 text-white p-3 rounded">Quiz me!</button>
-</form>
+<main class="container">
+    <h1 class="title">Pleasure to serve thine quiz needs {{user[0].username}}, the quiztastic.</h1>
+    <p class="sub-title">What manner of quiz would thou liketh?</p>
+    <form @submit.prevent="onSubmit">
+     <fieldset class="trivia-selection-field">
+         <label class="dropdown-label">
+             Ye Old Category
+         </label>
+         <select @change="setCategory" class="dropdown">
+             <option value="any">Surprise Me</option>
+             <option value="9">General Knowledge</option>
+             <option value="10">Entertainment: Books</option>
+             <option value="11">Entertainment: Film</option>
+             <option value="12">Entertainment: Music</option>
+             <option value="13">Entertainment: Musicals and Theatres</option>
+         </select>
+     </fieldset>
+     <fieldset class="trivia-selection-field">
+         <label class="dropdown-label">
+             Ye Old Difficulty level
+         </label>
+         <select @change="setDifficulty" class="dropdown">
+             <option value="any">Any difficulty</option>
+             <option value="easy">Easy</option>
+             <option value="medium">Medium</option>
+             <option value="hard">Hard</option>
+         </select>
+     </fieldset>
+     <fieldset class="trivia-selection-field">
+         <label class="dropdown-label">
+             Ye Old Question Type
+         </label>
+         <select @change="setQuestionType" class="dropdown">
+             <option value="any">Any</option>
+             <option value="multiple">Multiple Choice</option>
+             <option value="boolean">True or False</option>
+         </select>
+     </fieldset>
+      <button type="submit" class="play-button">Quiz me!</button>
+    </form>
+</main>
 </template>

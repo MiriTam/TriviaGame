@@ -11,15 +11,6 @@ const questions = computed(() => store.state.questions)
 let answers = []
 
 /**
- * Method updates the user's answers.
- * @param {string} answer 
- * @param {number} index 
- */
-const handleAnswer = (answer, index) => {
-    answers[index] = answer
-}
-
-/**
  * Method checks if the user has answered all questions.
  */
 const allQuestionsAnswered = () => {
@@ -35,10 +26,31 @@ const allQuestionsAnswered = () => {
 }
 
 /**
+ * Method updates the user's answers.
+ * @param {string} answer 
+ * @param {number} index 
+ */
+const handleAnswer = (correct_answer, answer, index) => {
+    answers[index] = {
+        correct_answer: correct_answer,
+        given_answer: answer
+    }
+    if (answers.length == 10) {
+        answered = allQuestionsAnswered()
+        if (answered) {
+            this.$forceUpdate()
+        }
+    }
+}
+
+/**
  * Method updates the stored answers and pushes the results route.
  */
 const submitAnswers = async () => {
-    if (!allQuestionsAnswered) return
+    if (!allQuestionsAnswered()) {
+        alert("Thou did not answer every question, my liege. Are thou not as quiztastic as thou sayeth?")
+        return
+    }
     const error = await store.dispatch("setTriviaAnswers", {
         answers,
         user: user.value[0]
@@ -53,23 +65,27 @@ const submitAnswers = async () => {
 </script>
 
 <template>
- <h1>
-     Trivia 
- </h1>
- <main class="container mx-auto px-4">
-     <ul>
-         <QuestionDisplay 
-          v-for="(value, index) in questions" 
-          :question="value" 
-          :index="index"
-          @answerGiven="handleAnswer"
+ <main class="container">
+    <h1 class="title">
+        Quiz 
+    </h1>
+    <h2 class="sub-title">
+        Thine quiz, my liege.
+    </h2>
+    <ol class="question-list">
+        <QuestionDisplay 
+         v-for="(value, index) in questions" 
+         :question="value" 
+         :index="index"
+         @answerGiven="handleAnswer"
+         class="display"
         />
-     </ul>
-     <button 
-        class="bg-red-500 text-white p-3 rounded"
+    </ol>
+    <button 
+        class="play-button"
         v-on:click="submitAnswers"
-     >
+    >
         Complete Quiz
-     </button>
+    </button>
  </main>
 </template>

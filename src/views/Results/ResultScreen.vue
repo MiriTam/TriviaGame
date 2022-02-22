@@ -17,8 +17,9 @@ const score = computed(() => store.state.score)
  * @param {number} index 
  * @param {array} listOfQuestions
  */
-const getQuestion = (index, listOfQuestions) => {
-    return listOfQuestions[index]
+const getQuestion = (index) => {
+    console.log("her", questions.value[index])
+    return questions.value[index]
 }
 
 /**
@@ -60,33 +61,38 @@ const logout = () => {
 </script>
 
 <template>
- <h1>
-     Results
- </h1>
-  <p>
-      Your total score is {{score}}
-  </p>
-  <ResultDisplay 
-   v-for="(answer, index) in answers" 
-   :answer="answer"
-   :question="getQuestion(index, questions)"
- />
- <button
-  class="bg-red-500 text-white p-3 rounded"
-  v-on:click="retry"
- >
-     Play again!
- </button>
- <button
-  class="bg-red-500 text-white p-3 rounded"
-  v-on:click="changeSelection"
- >
-     Try some other options
- </button>
- <button
-  class="bg-red-500 text-white p-3 rounded"
-  v-on:click="logout"
- >
-     Finish Quiz
- </button>
+ <main class="container">
+    <h1 class="title">
+       Quiz Results
+    </h1>
+    <h2 class="sub-title">
+       Thou recieved a score of {{score}} out of 100.
+    </h2>
+    <ul class="question-list">
+      <ResultDisplay 
+        v-for="(answer, index) in answers" 
+        :answer="answer"
+        :index="index"
+        class="display"
+      />
+    </ul>
+    <button
+      class="retry-button"
+      v-on:click="retry"
+    >
+        Playeth once more!
+    </button>
+    <button
+     class="change-button"
+     v-on:click="changeSelection"
+    >
+        Tryeth something else
+    </button>
+    <button
+     class="logout-button"
+     v-on:click="logout"
+    >
+        Finish quiz
+    </button>
+ </main>
 </template>
