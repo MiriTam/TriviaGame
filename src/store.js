@@ -1,6 +1,6 @@
-import { createStore } from "vuex";
+import { createStore, useStore } from "vuex";
 import { apiGetQuestions } from "./api/questions";
-import { apiGetUser, apiRegisterUser } from "./api/users"
+import { apiGetUser, apiRegisterUser, apiUpdateUserHighscore } from "./api/users"
 
 /**
  * Method is used to get the user from local storage.
@@ -15,6 +15,10 @@ const initUser = () => {
     }
 }
 
+/**
+ * Method gets the questions from local storage.
+ * @returns 
+ */
 const initQuestions = () => {
     const storedQuestions = localStorage.getItem("trivia-questions")
     if (!storedQuestions) {
@@ -24,10 +28,38 @@ const initQuestions = () => {
     }
 }
 
+/**
+ * Method gets the answers from local storage.
+ * @returns 
+ */
+const initAnswers = () => {
+    const storedAnswers = localStorage.getItem("trivia-answers")
+    if (!storedAnswers) {
+        return null
+    } else {
+        return JSON.stringify(storedAnswers)
+    }
+}
+
+/**
+ * Method gets the current score from local storage.
+ * @returns 
+ */
+const initScore = () => {
+    const storedScore = localStorage.getItem("trivia-score")
+    if (!storedScore) {
+        return null
+    } else {
+        return JSON.stringify(storedScore)
+    }
+}
+
 export default createStore({
     state: {
         user: initUser(),
-        questions: initQuestions()
+        questions: initQuestions(),
+        answers: initAnswers(),
+        score: initScore()
     },
     mutations: {
         setUser: (state, user) => {
@@ -35,16 +67,20 @@ export default createStore({
         },
         setQuestions: (state, questions) => {
             state.questions = questions
+        },
+        setAnswers: (state, answers) => {
+            state.answers = answers
+        },
+        setScore: (state, score) => {
+            state.score = score
         }
     },
     actions: {
         /**
-         * Method saves the user in local storage.
-         * @param {commit function} param0 
-         * @param {username and name of action} param1 
+         * Method saves the user in local storage. 
          * @returns 
          */
-        async loginUser({commit}, {username, action}) {
+        async loginUser({commit}, {username}) {
             try {
                 if (action == "login") {
                     // Get user from server
@@ -64,7 +100,7 @@ export default createStore({
                     return null
 
                 } else {
-                    throw new Error("loginUser: Wrong action provided. Action: " + action)
+                    throw new Error("Could not login user.")
                 }
             } catch (error) {
                 return error.message
@@ -88,6 +124,37 @@ export default createStore({
             } catch (error) {
                 return error.message
             }
+        },
+
+        /**
+         * Method stores the user's score and answers and updates their highscore. 
+         * @returns 
+         */
+        async setTriviaAnswers({commit}, {answers, user}) {
+            // Calculate score
+            let score = 0
+            answers.forEach(answer => {
+                if (answer === true) {
+                    score += 10
+                }
+            });
+
+            // Store answers and current score in local storage.
+            commit("setAnswers", answers)
+            commit("setScore", score)
+            localStorage.setItem("trivia-answers", JSON.stringify(answers))
+            localStorage.setItem("trivia-score", JSON.stringify(score))
+
+            // Send update to API.
+            if (score > user.highScore) {
+                const response = await apiUpdateUserHighscore(user, score)
+                if (response.ok) {
+                    return null
+                } else {
+                    return response
+                }
+            }
+            return null
         }
     }
 })

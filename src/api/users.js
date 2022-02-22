@@ -5,28 +5,26 @@ import { USER_BASE_URL, API_KEY } from "."
  * @param {string} username 
  */
 export async function apiRegisterUser(username) {
- fetch(`${USER_BASE_URL}/trivia`, {
-        method: 'POST',
-        headers: {
-            'X-API-Key': API_KEY,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            username: username, 
-            highScore: 0 
-        })
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Could not create new user.')
-      }
-    })
-    .then(newUser => {
-      return newUser
-    })
-    .catch(error => {
-        return error
-    })
+  try {
+    const response = await fetch(`${USER_BASE_URL}/trivia`, {
+           method: 'POST',
+           headers: {
+               'X-API-Key': API_KEY,
+             'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({ 
+               username: username, 
+               highScore: 0 
+           })
+       })
+       if (!response.ok) {
+         throw new Error("Could not register new user.")
+       } else {
+         return null
+       }
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 /**
@@ -42,5 +40,31 @@ export async function apiGetUser(username) {
     } catch (error) {
         return error
     }
+}
+
+/**
+ * Method used to update the user's highscore on the API.
+ * @param {number} user
+ * @param {number} highScore 
+ * @returns 
+ */
+export async function apiUpdateUserHighscore(user, highScore) {
+  try {
+    const response = await fetch(`${USER_BASE_URL}/trivia/${user.id}`, {
+      method: 'PUT',
+      headers: {
+          'X-API-Key': API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          highScore: highScore,
+          id: user.id,
+          username: user.username
+      })
+    })
+    return await response
+  } catch (error) {
+    return error.message
+  }
 }
 

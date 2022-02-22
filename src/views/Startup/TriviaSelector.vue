@@ -1,10 +1,11 @@
 <script setup>
 import { useStore } from 'vuex';
 import { computed } from "vue"
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const store = useStore()
 const user = computed(() => store.state.user)
-const emit = defineEmits(["onTriviaSelectionSuccess"])
 let category = null
 let difficulty = null
 let questionType = null
@@ -49,7 +50,8 @@ const setQuestionType = (event) => {
 }
 
 /**
- * Method used to submit the input form to be handled by store actions.
+ * Method used to submit the input form to be handled by store actions,
+ * then push the questions route.
  */
 const onSubmit = async () => {
     const error = await store.dispatch("getTriviaQuestions", {
@@ -60,7 +62,7 @@ const onSubmit = async () => {
     if (error !== null) {
         console.log(error)
     } else {
-        emit("onTriviaSelectionSuccess")
+        router.push("/questions")
     }
 }
 </script>

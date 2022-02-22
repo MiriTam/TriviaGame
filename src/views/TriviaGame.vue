@@ -1,11 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import StartScreen from './StartScreen.vue';
+import StartScreen from './Startup/StartScreen.vue';
 
 const router = useRouter()
 
 const handleLogin = () => {
-    console.log("user logged in")
     router.push("/selection")
 }
 </script>

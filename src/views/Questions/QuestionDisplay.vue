@@ -55,15 +55,15 @@ const answerGiven = (answer, correct_answer, index) => {
 
 <template>
  <li>
-           <p>
-              {{question.question}} 
-           </p>
-           <button 
-            class="bg-indigo-500 text-white p-3 rounded"  
-            v-for="alternative in getAlternatives(question.incorrect_answers, question.correct_answer)" 
-            v-on:click="answerGiven(alternative, question.correct_answer, index)"
-           >
-            {{alternative}}
-           </button>
-  </li>
+    <p>
+        {{question.question}} 
+    </p>
+    <button 
+        class="bg-indigo-500 text-white p-3 rounded"  
+        v-for="alternative in getAlternatives(question.incorrect_answers, question.correct_answer)" 
+        v-on:click="answerGiven(alternative, question.correct_answer, index)"
+    >
+        {{alternative}}
+    </button>
+ </li>
 </template>

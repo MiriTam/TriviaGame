@@ -1,32 +1,60 @@
 import { createRouter, createWebHistory } from "vue-router"
 import store from "./store"
-import QuestionScreen from "./views/QuestionScreen.vue"
-import TriviaSelector from "./views/TriviaSelector.vue"
+import QuestionScreen from "./views/Questions/QuestionScreen.vue"
+import TriviaSelector from "./views/Startup/TriviaSelector.vue"
 import TriviaGame from "./views/TriviaGame.vue"
+import ResultScreen from "./views/Results/ResultScreen.vue"
 
 /**
- * Method used to redirect the user to the start screen
- * if they are not logged in.
+ * Method used to ensure the user is redirected if they go
+ * to the login page while they are already logged in. 
  */
-const triviaGuard = (_to, _from, next) => {
-    if (!store.state.user) {
-        next("/")
+ const loginGuard = (_to, _from, next) => {
+    if (store.state.user) {
+        next("/selection")
     } else {
         next()
     }
 }
 
 /**
- * Method used to ensure the user is redirected if they go
- * to the login page while they are already logged in. 
+ * Method used to redirect the user to the question screen
+ * if they have already selected questions. 
  */
-const loginGuard = (_to, _from, next) => {
-    if (store.state.user) {
-        if (store.state.questions) {
-            next("/trivia")
+const selectionGuard = (_to, _from, next) => {
+    if (store.state.questions) {
+        next("/questions")
+    } else {
+        if (store.state.user) {
+            next()
         } else {
-            next("/selection")
+            next("/")
         }
+    }
+}
+
+/**
+ * Method used to redirect the user to selection if there
+ * are no questions, or to the results if the questions have 
+ * already been answered.
+ */
+const triviaGuard = (_to, _from, next) => {
+    if (store.state.answers) {
+        next("/results")
+    } else if (!store.state.questions) {
+        next("/selection")
+    } else {
+        next()
+    }
+}
+
+/**
+ * Method used to redirect user from the results page if
+ * there are no results to show.
+ */
+const resultGuard = (_to, _from, next) => {
+    if (!store.state.answers) {
+        next("/questions")
     } else {
         next()
     }
@@ -39,14 +67,19 @@ const routes = [
         beforeEnter: loginGuard
     },
     {
-        path: "/trivia",
+        path: "/questions",
         component: QuestionScreen,
         beforeEnter: triviaGuard
     },
     {
         path: "/selection",
         component: TriviaSelector,
-        beforeEnter: triviaGuard
+        beforeEnter: selectionGuard
+    },
+    {
+        path: "/results",
+        component: ResultScreen,
+        beforeEnter: resultGuard
     }
 ]
 
