@@ -1,4 +1,4 @@
-import { createStore, useStore } from "vuex";
+import { createStore } from "vuex";
 import { apiGetQuestions } from "./api/questions";
 import { apiGetUser, apiRegisterUser, apiUpdateUserHighscore } from "./api/users"
 
@@ -42,6 +42,19 @@ const initAnswers = () => {
 }
 
 /**
+ * Method gets the trivia selection from local storage.
+ * @returns 
+ */
+const initSelection = () => {
+    const storedSelection = localStorage.getItem("trivia-selection")
+    if (!storedSelection) {
+        return null
+    } else {
+        return JSON.parse(storedSelection)
+    }
+}
+
+/**
  * Method gets the current score from local storage.
  * @returns 
  */
@@ -59,7 +72,8 @@ export default createStore({
         user: initUser(),
         questions: initQuestions(),
         answers: initAnswers(),
-        score: initScore()
+        score: initScore(),
+        selection: initSelection()
     },
     mutations: {
         setUser: (state, user) => {
@@ -70,6 +84,9 @@ export default createStore({
         },
         setAnswers: (state, answers) => {
             state.answers = answers
+        },
+        setSelection: (state, selection) => {
+            state.selection = selection
         },
         setScore: (state, score) => {
             state.score = score
@@ -82,7 +99,6 @@ export default createStore({
          */
         async loginUser({commit}, {username}) {
             try {
-                if (action == "login") {
                     // Get user from server
                     let user = await apiGetUser(username.value)
 
@@ -99,9 +115,6 @@ export default createStore({
 
                     return null
 
-                } else {
-                    throw new Error("Could not login user.")
-                }
             } catch (error) {
                 return error.message
             }
@@ -119,6 +132,13 @@ export default createStore({
                 } else {
                     commit("setQuestions", results)
                     localStorage.setItem("trivia-questions", JSON.stringify(results))
+                    const selection = {
+                        category: category,
+                        difficulty: difficulty,
+                        questionType: questionType
+                    }
+                    commit("setSelection", selection)
+                    localStorage.setItem("trivia-selection", JSON.stringify(selection))
                     return null
                 }
             } catch (error) {
@@ -155,6 +175,46 @@ export default createStore({
                 }
             }
             return null
+        },
+
+        /**
+         * Method resets the trivia score and answers to null.
+         */
+        resetAnswers({commit}) {
+            commit("setAnswers", null)
+            commit("setScore", null)
+            localStorage.setItem("trivia-answers", null)
+            localStorage.setItem("trivia-score", null)
+        },
+
+        /**
+         * Method resets the quiz data stored in local storage. 
+         */
+        resetQuiz({commit}) {
+            commit("setAnswers", null)
+            commit("setScore", null)
+            commit("setQuestions", null)
+            commit("setSelection", null)
+            localStorage.setItem("trivia-answers", null)
+            localStorage.setItem("trivia-score", null)
+            localStorage.setItem("trivia-questions", null)
+            localStorage.setItem("trivia-selection", null)
+        },
+
+        /**
+         * Method sets all data in local storage to null. 
+         */
+        reset({commit}) {
+            commit("setUser", null)
+            commit("setAnswers", null)
+            commit("setScore", null)
+            commit("setQuestions", null)
+            commit("setSelection", null)
+            localStorage.setItem("trivia-user", null)
+            localStorage.setItem("trivia-answers", null)
+            localStorage.setItem("trivia-score", null)
+            localStorage.setItem("trivia-questions", null)
+            localStorage.setItem("trivia-selection", null)
         }
     }
 })

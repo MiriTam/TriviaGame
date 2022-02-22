@@ -12,7 +12,6 @@ const emit = defineEmits(["onAuthSuccess"])
  */
 const onSubmit = async () => {
     const error = await store.dispatch("loginUser", {
-        action: "login",
         username
     })
     if (error !== null) {

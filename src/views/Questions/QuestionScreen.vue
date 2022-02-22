@@ -67,7 +67,6 @@ const submitAnswers = async () => {
      </ul>
      <button 
         class="bg-red-500 text-white p-3 rounded"
-        onclick=""
         v-on:click="submitAnswers"
      >
         Complete Quiz
