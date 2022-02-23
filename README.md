@@ -1,7 +1,39 @@
-# Vue 3 + Vite
+# TriviaGame
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A TriviaGame web application develped using the Vue framework that allows users to answer trivia questions. The users and their highscore is stored on the trivia API available at: https://protected-sea-87309.herokuapp.com/.
+The trivia questions are fetched from the API: https://opentdb.com/api_config.php.
 
-## Recommended IDE Setup
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+## Table of Contents
+
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
+
+
+## Background
+
+This application was developed as a part of the .NET Fullstack course at Noroff.
+
+
+## Install
+
+This project uses node and npm.
+
+Before running application run: 'npm install'
+
+## Usage
+
+Run 'npm run dev' to start local server.
+
+## Maintainers
+
+[@MiriTam](https://github.com/MiriTam)
+
+
+## License
+
+MIT © 2022 Miriam Tamara Grødeland Aarag
